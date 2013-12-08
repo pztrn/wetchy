@@ -1,0 +1,22 @@
+server {
+        listen       80;
+        server_name  example.com;
+
+	location / {
+		include uwsgi_params;
+		uwsgi_pass	127.0.0.1:3050;
+		uwsgi_pass_request_body on;
+	}
+	root /var/www/automag/public;
+
+	location /templates {
+		root /var/www/automag/public/templates;
+	}
+
+	location /stats_data {
+		root /var/www/automag/public/stats;
+	}
+
+	client_max_body_size 400M;
+
+}
