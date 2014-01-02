@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# WSGI handler for GSTools.
+# WSGI handler for Wetchy.
 import os
 import sys
 #import wsgi

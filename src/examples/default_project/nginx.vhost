@@ -7,16 +7,12 @@ server {
 		uwsgi_pass	127.0.0.1:3050;
 		uwsgi_pass_request_body on;
 	}
-	root /var/www/automag/public;
+	root /path/to/project/public;
 
 	location /templates {
-		root /var/www/automag/public/templates;
+		root /path/to/project/public/templates;
 	}
 
-	location /stats_data {
-		root /var/www/automag/public/stats;
-	}
-
-	client_max_body_size 400M;
+	client_max_body_size 20M;
 
 }
