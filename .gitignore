@@ -1,0 +1,39 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Python bytecode
+.pyc
+
+# Installer logs
+pip-log.txt
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# uWSGI reloader
+reload_gstools
+
+# Logs
+logs/*
+
+# alembic production config
+alembic.ini
+
+src/config/[1-9][0-9]*.conf
