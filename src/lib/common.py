@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 # Wetchy version :)
 VERSION = "0.1-alpha"
 # Version tuple - for those, who rely on versions.
@@ -21,12 +22,6 @@ HTML_RESPONSE = """
 </body>
 </html>
 """
-
-# HTML status - HTTP/1.1 status code.
-# Refer to http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-# for proper code. By default it will return "200 OK".
-HTML_RESPONSE_CODE = "200 OK"
-
 # Configuration dictionary. This dictionary will be filed with
 # help of lib/config.py/Config().
 #
