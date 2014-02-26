@@ -5,6 +5,7 @@
 #
 # This is a main class, that contains wetchy initializations.
 import os
+import sys
 import wsgiref
 wsgiref.multiprocess = True
 from wsgiref.simple_server import make_server
@@ -12,16 +13,36 @@ import mimetypes
 import cgi
 
 from lib import common
+from lib.config import Config
+from lib.renderer import Renderer
 
 class Wetchy:
-    def __init__(self):
+    def __init__(self, project_path):
         self.WSGI_INPUT = ""
+        
+        common.INSTANCES["WETCHY"] = self
+        
+        # Initializing Wetchy libraries.
+        self.wetchy_common = common
+        common.SETTINGS["SCRIPT_PATH"] = project_path
+        self.renderer = Renderer()
+        self.config_instance = Config()
+        self.config = common.SETTINGS
         
         if "DEBUG" in os.environ:
             if os.environ["DEBUG"] == "true":
                 print("Listening on http://localhost:8051/")
                 httpd = make_server('localhost', 8051, self.application)
                 httpd.serve_forever()
+        else:
+            # No debug, but still trying to launch as standalone? NOWAI!
+            print("This site should not be running as standalone application.")
+            print("You should use one of these great application servers:")
+            print("gunicorn, uwsgi.")
+            print("If you still want to run this site as standalone application,")
+            print("use this command:\n")
+            print("\tDEBUG=true ./project.py")
+            exit(1)
 
     def serve_file(self, full_path, responser):
         """
@@ -43,7 +64,7 @@ class Wetchy:
         """
         Starting point for processing client request.
         """
-        self.initialize()
+        self.process()
         status, response_body = self.get_response()
         response_headers = [("Content-Type", "text/html; charset=utf-8")]
         responser(status, response_headers)

@@ -4,7 +4,7 @@
 
 Wetchy written entirely in python 3.
 
-There is no ready documentation yet, but you can look into examples/default_project. This forled contains default project that can be used and launched.
+There is no ready documentation yet, but you can look into examples/default_project. This directory contains default project that can be used and launched.
 
 ## Dependencies
 
