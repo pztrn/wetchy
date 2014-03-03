@@ -5,9 +5,9 @@
 
 import os
 
-from lib import common
+from wetchy.lib import common
 
-from thirdparty.tenjin import tenjin
+from wetchy.thirdparty.tenjin import tenjin
 
 class Renderer:
     def __init__(self):
@@ -28,3 +28,24 @@ class Renderer:
         # Force cache storage to memory, to keep clean templates directory.
         tenjin.Engine.cache = tenjin.MemoryCacheStorage()
         tenjin.set_template_encoding("utf-8")
+
+    def render(self, template, data):
+        """
+        Render things.
+        """
+        pass
+        
+    def set_response_code(self, code):
+        """
+        Set response code.
+        
+        code [int] - integer of HTTP/1.1 code to be passed.
+        """
+        codes = {
+            200: "200 OK",
+            301: "301 Moved Permanently",
+            401: "401 Unauthorized",
+            404: "404 Not Found",
+            501: "501 Not Implemented"
+        }
+        common.HTML_RESPONSE_CODE = codes[code]

@@ -5,7 +5,7 @@
 import os
 import configparser
 
-from lib import common
+from wetchy.lib import common
 
 class Config:
     def __init__(self):

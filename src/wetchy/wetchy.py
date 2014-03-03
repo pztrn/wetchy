@@ -12,9 +12,10 @@ from wsgiref.simple_server import make_server
 import mimetypes
 import cgi
 
-from lib import common
-from lib.config import Config
-from lib.renderer import Renderer
+from wetchy.lib import common
+from wetchy.lib.config import Config
+from wetchy.lib.renderer import Renderer
+from wetchy.lib.router import Router
 
 class Wetchy:
     def __init__(self, project_path):
@@ -25,9 +26,10 @@ class Wetchy:
         # Initializing Wetchy libraries.
         self.wetchy_common = common
         common.SETTINGS["SCRIPT_PATH"] = project_path
-        self.renderer = Renderer()
         self.config_instance = Config()
         self.config = common.SETTINGS
+        self.renderer = Renderer()
+        self.router = Router()
         
         if "DEBUG" in os.environ:
             if os.environ["DEBUG"] == "true":
@@ -65,6 +67,7 @@ class Wetchy:
         Starting point for processing client request.
         """
         self.process()
+        self.router.route_request()
         status, response_body = self.get_response()
         response_headers = [("Content-Type", "text/html; charset=utf-8")]
         responser(status, response_headers)

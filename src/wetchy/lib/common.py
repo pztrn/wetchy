@@ -17,10 +17,10 @@ HTML_RESPONSE = """
 <p>This is <a href='https://github.com/pztrn/wetchy/'>Wetchy</a>, the <b>WE</b>b <b>T</b>ool<b>CH</b>ain written in p<b>Y</b>thon.</p>
 <p>If you see this message, then everything is okay and Wetchy ready to serve you!<p>
 <hr>
-<i>Wetchy 0.1-alpha</i>
+<i>Wetchy {0}</i>
 </body>
 </html>
-"""
+""".format(VERSION)
 
 # HTML status - HTTP/1.1 status code.
 # Refer to http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
