@@ -5,6 +5,10 @@ VERSION = "0.1-alpha"
 # Version tuple - for those, who rely on versions.
 VERSION_TUPLE = ("0", "1", "a")
 
+# Response headers - used for overwrite default "text/html"
+# content-type.
+RESPONSE_HEADERS = [("Content-Type", "text/html; charset=utf-8")]
+
 # HTML response - full HTML text of page.
 # By default it will print some Hello World thing.
 HTML_RESPONSE = """

@@ -42,3 +42,10 @@ class MarkdownPage(BasePage):
         Converts markdown pages into HTML data.
         """
         return markdown.markdown(markdown_data)
+        
+    def read_page(self, pagename):
+        """
+        Reads page from SITE_PATH/data/markdown, converts it to
+        HTML and returns to caller.
+        """
+        pass

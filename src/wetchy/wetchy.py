@@ -9,7 +9,6 @@ import sys
 import wsgiref
 wsgiref.multiprocess = True
 from wsgiref.simple_server import make_server
-import mimetypes
 import cgi
 
 from wetchy.lib import common
@@ -29,6 +28,7 @@ class Wetchy:
         self.config_instance = Config()
         self.config = common.SETTINGS
         self.renderer = Renderer()
+        self.renderer.init_renderer()
         self.router = Router()
         
         if "DEBUG" in os.environ:
@@ -46,22 +46,6 @@ class Wetchy:
             print("\tDEBUG=true ./project.py")
             exit(1)
 
-    def serve_file(self, full_path, responser):
-        """
-        Serving some static file.
-        
-        It is not recommended to use this method in "everyfile" case,
-        better to configure your webserver for serving static data.
-        
-        In future this method may be enchanced with download rights
-        checks.
-        """
-        mime = mimetypes.guess_type(full_path)[0] or 'text/plain'
-        response_headers = [("Content-Type", mime)]
-        status = '200 OK'
-        self.responser(status, response_headers)
-        return [open(full_path, 'rb').read()]
-
     def process_request(self, responser):
         """
         Starting point for processing client request.
@@ -69,7 +53,7 @@ class Wetchy:
         self.process()
         self.router.route_request()
         status, response_body = self.get_response()
-        response_headers = [("Content-Type", "text/html; charset=utf-8")]
+        response_headers = common.RESPONSE_HEADERS
         responser(status, response_headers)
         return [response_body.encode("utf-8")]
 
@@ -99,15 +83,6 @@ class Wetchy:
             )
         else:
             self.WSGI_INPUT = cgi.FieldStorage()
-
-        if "DEBUG" in os.environ:
-            if os.environ["DEBUG"] == "true":
-            # try to serve local file
-                full_path = os.environ["PWD"] + "/public" + os.environ["REQUEST_URI"]
-                if os.environ["REQUEST_URI"] != "/" and os.path.exists(full_path):
-                    return serve_file(full_path, responser)
-                else:
-                    return self.process_request(responser)
 
         return self.process_request(responser)
         

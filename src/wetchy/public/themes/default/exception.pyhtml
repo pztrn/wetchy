@@ -1,0 +1,32 @@
+<?py # -*- coding: utf-8 -*- ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" media="all" type="text/css" href="/themes/default/style.css">
+    <title>Wetchy encountered a problem!</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Wetchy encountered a problem!</h1>
+        <div class="problem_description">
+            <p>Wetchy web framework encountered a problem with site and cannot continue to process your request.</p>
+            <p>Here goes traceback and some variables. Please, contact site administrator. He should fix it as soon as possible.</p>
+        </div>
+        <div class="traceback">
+            <?py for item in traceback: ?>
+            <div class="traceback_line">
+                <p>File: #{item[0]}</p>
+                <p>Line: #{item[1]}</p>
+                </p>Method: #{item[2]}</p>
+            </div>
+            <?py #endfor ?>
+            <div class="arrow_error">
+            </div>
+            <div class="traceback_line error_message">
+                <p>#{error}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

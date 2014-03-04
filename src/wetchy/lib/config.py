@@ -62,6 +62,9 @@ class Config:
         self.config = dict(self.cp)
         self.config.update(self.old_settings)
         
+        # Insert WETCHY_PATH variable into config.
+        self.config["WETCHY_PATH"] = wetchy_path
+        
         # Replace common.SETTINGS with newly parsed configuration.
         # Actually, we should not use it at all, but in case of
         # emergency nothing should break itself.
