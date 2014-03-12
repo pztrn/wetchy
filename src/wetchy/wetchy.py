@@ -13,6 +13,7 @@ import cgi
 
 from wetchy.lib import common
 from wetchy.lib.config import Config
+from wetchy.lib.database import Database
 from wetchy.lib.renderer import Renderer
 from wetchy.lib.router import Router
 
@@ -30,6 +31,7 @@ class Wetchy:
         self.renderer = Renderer()
         self.renderer.init_renderer()
         self.router = Router()
+        self.database = Database()
         
         if "DEBUG" in os.environ:
             if os.environ["DEBUG"] == "true":

@@ -3,22 +3,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" media="all" type="text/css" href="/themes/default/style.css">
+    <link rel="stylesheet" media="all" type="text/css" href="wetchy/themes/default/style.css">
     <title>Wetchy encountered a problem!</title>
 </head>
 <body>
     <div class="container">
-        <h1>Wetchy encountered a problem!</h1>
+        <div class="problem_header">
+            <h1>Wetchy encountered a problem!</h1>
+        </div>
         <div class="problem_description">
             <p>Wetchy web framework encountered a problem with site and cannot continue to process your request.</p>
             <p>Here goes traceback and some variables. Please, contact site administrator. He should fix it as soon as possible.</p>
+            <br />
+            <p>Administrator contacts:</p>
+            <p>Name: #{config["main"]["site_admin"]}</p>
+            <p>E-Mail: #{config["main"]["site_admin_mail"]}</p>
         </div>
         <div class="traceback">
             <?py for item in traceback: ?>
             <div class="traceback_line">
                 <p>File: #{item[0]}</p>
                 <p>Line: #{item[1]}</p>
-                </p>Method: #{item[2]}</p>
+                <?py if item[2] != "<module>": ?>
+                    <p>Method: #{item[2]}</p>
+                <?py #endif ?>
+                <p>Call: #{item[3]}</p>
             </div>
             <?py #endfor ?>
             <div class="arrow_error">

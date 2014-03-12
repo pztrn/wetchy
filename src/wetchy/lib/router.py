@@ -45,17 +45,49 @@ class Router:
             params = ["/"]
             
         params = "/".join(params)
-            
+        
         # Try to initialize this application. If we call for templates,
         # we should just serve this file without any errors.
-        if not "themes" in app_name:
+        if not "themes" in app_name and not "wetchy" in app_name and not "wetchy" in params:
             print("Initializing application '{0}' with parameters: '{1}'".format(app_name, params))
-            __import__("apps." + app_name)
-            app = sys.modules["apps." + app_name]
-            exec("self.app = app." + app_name.capitalize() + "App()")
-            self.app.routes[params]()
+            try:
+                __import__("apps." + app_name)
+                app = sys.modules["apps." + app_name]
+                exec("self.app = app." + app_name.capitalize() + "App()")
+                # Parse parameters.
+                params = self.parse_params(params)
+                self.app.routes[params]()
+            except ImportError as e:
+                common.INSTANCES["RENDERER"].render_error(e)
         else:
             self.serve_file(app_name + "/" + params)
+            
+    def parse_params(self, params):
+        """
+        Parse parameters in metainterpretation thing, like
+        "/:int/:str/" for "/3/info/".
+        """
+        temp_params = params.split("/")
+        # Parameters should be wide-accessible thing. At least, for
+        # site applications.
+        common.PARAMETERS = temp_params
+        params = [""]
+        
+        for item in temp_params:
+            if item != "":
+                # Try to make it int. If we failed - it's string! :)
+                try:
+                    int(item)
+                    params.append(":int")
+                except:
+                    params.append(":str")
+                
+        params = "/".join(params)
+        
+        if len(params) == 0:
+            params = "/"
+        
+        return params
             
     def serve_file(self, file_path):
         """
@@ -72,6 +104,12 @@ class Router:
             params = os.path.join(wetchy_public, file_path)
         else:
             params = os.path.join(site_public, file_path)
+            
+        if "wetchy" in file_path:
+            print("Detected request for Wetchy public file")
+            print(file_path.split("wetchy")[1])
+            params = wetchy_public + file_path.split("wetchy")[1]
+
         print("Serving file '{0}'".format(params))
         
         mime = mimetypes.guess_type(params)[0] or 'text/plain'

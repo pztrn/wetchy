@@ -24,6 +24,9 @@ class Config:
         # Parse configuration from launched project.
         self.parse_configuration()
         
+        # Initialize temporary configuration.
+        self.init_temp_settings()
+        
     def parse_configuration(self):
         """
         Parse configuration files.
@@ -69,3 +72,14 @@ class Config:
         # Actually, we should not use it at all, but in case of
         # emergency nothing should break itself.
         common.SETTINGS = self.config
+
+    def init_temp_settings(self):
+        """
+        Initialize common.TEMP_SETTINGS with some default values.
+        """
+        common.TEMP_SETTINGS = {
+            # Renderer was emergency initialized?
+            "RENDERER_IN_EMERGENCY"     : False,
+            # Should we interrupt all our actions?
+            "INTERRUPT"                 : False,
+        }

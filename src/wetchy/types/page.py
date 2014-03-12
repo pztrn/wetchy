@@ -3,6 +3,9 @@
 # Wetchy Page module.
 # Contains all required tools for pages.
 
+import markdown
+import os
+
 from wetchy.lib import common
 
 class BasePage:
@@ -11,6 +14,11 @@ class BasePage:
     """
     def __init__(self):
         self.renderer = common.INSTANCES["RENDERER"]
+        
+        # Database can be required anywhere :)
+        self.database = common.INSTANCES["DATABASE"]
+        
+        self.PARAMS = common.PARAMETERS
 
 class DynamicPage(BasePage):
     """
@@ -35,6 +43,8 @@ class MarkdownPage(BasePage):
     """
     def __init__(self):
         BasePage.__init__(self)
+        # We doing it here because ONLY THIS CLASS requires markdown
+        # module.
         import markdown
         
     def markdown_to_html(self, markdown_data):
@@ -48,4 +58,5 @@ class MarkdownPage(BasePage):
         Reads page from SITE_PATH/data/markdown, converts it to
         HTML and returns to caller.
         """
-        pass
+        data = open(os.path.join(common.SETTINGS["SCRIPT_PATH"], "data", "markdown", pagename)).read()
+        return self.markdown_to_html(data)

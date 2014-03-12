@@ -27,7 +27,7 @@ class Renderer:
         """
         Initialize renderer with settings, provided by user.
         """
-        self.engine = tenjin.Engine(path = [os.path.join(common.SETTINGS["SCRIPT_PATH"], common.SETTINGS["themes"]["templates_path"], common.SETTINGS["themes"]["template_name"])], escapefunc="cgi.escape", tostrfunc="str")
+        self.engine = tenjin.Engine(path = [os.path.join(common.SETTINGS["themes"]["templates_path"], common.SETTINGS["themes"]["template_name"])], escapefunc="cgi.escape", tostrfunc="str")
         # Force cache storage to memory, to keep clean templates directory.
         tenjin.Engine.cache = tenjin.MemoryCacheStorage()
         tenjin.set_template_encoding("utf-8")
@@ -36,15 +36,24 @@ class Renderer:
         """
         Initialize renderer with emergency settings.
         """
+        common.TEMP_SETTINGS["RENDERER_IN_EMERGENCY"] = True
         self.engine = tenjin.Engine(path = [os.path.join(common.SETTINGS["WETCHY_PATH"], "public", "themes", "default")], escapefunc="cgi.escape", tostrfunc="str")
         # Force cache storage to memory, to keep clean templates directory.
         tenjin.Engine.cache = tenjin.MemoryCacheStorage()
         tenjin.set_template_encoding("utf-8")
 
-    def render(self, data, template = "index.pyhtml"):
+    def render(self, data, template = "main.pyhtml"):
         """
         Render things.
         """
+        # Include some vital variables.
+        if not "action" in data:
+            data["action"] = "index"
+        if not "subaction" in data:
+            data["subaction"] = "index"
+        if not "pagetitle" in data:
+            data["pagetitle"] = common.SETTINGS["main"]["site_name"]
+        
         try:
             html = self.engine.render(template, data)
             common.HTML_RESPONSE = html
@@ -64,6 +73,7 @@ class Renderer:
         data = {
             "error"                 : error,
             "traceback"             : traceback.extract_tb(exc_traceback),
+            "config"                : common.SETTINGS
         }
         html = self.engine.render("exception.pyhtml", data)
         common.HTML_RESPONSE = html

@@ -43,3 +43,6 @@ TEMP_SETTINGS = {}
 
 # Instances of all base classes, like configuration.
 INSTANCES = {}
+
+# Passed parameters.
+PARAMETERS = []
